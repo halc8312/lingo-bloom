@@ -2,7 +2,17 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Trash2, Sparkles, Code, Lightbulb } from "lucide-react";
+import { 
+  Trash2, 
+  Lightbulb, 
+  Code, 
+  Sparkles, 
+  Brain,
+  MessageSquare,
+  BookOpen,
+  Database,
+  Server
+} from "lucide-react";
 
 interface PromptCardProps {
   id: number;
@@ -17,12 +27,22 @@ interface PromptCardProps {
 
 const getCategoryIcon = (category: string) => {
   switch (category) {
-    case "創造":
-      return <Sparkles className="h-4 w-4" />;
-    case "開発":
-      return <Code className="h-4 w-4" />;
     case "基本":
       return <Lightbulb className="h-4 w-4" />;
+    case "開発":
+      return <Code className="h-4 w-4" />;
+    case "創造":
+      return <Sparkles className="h-4 w-4" />;
+    case "分析":
+      return <Brain className="h-4 w-4" />;
+    case "会話":
+      return <MessageSquare className="h-4 w-4" />;
+    case "教育":
+      return <BookOpen className="h-4 w-4" />;
+    case "データ":
+      return <Database className="h-4 w-4" />;
+    case "システム":
+      return <Server className="h-4 w-4" />;
     default:
       return <Lightbulb className="h-4 w-4" />;
   }

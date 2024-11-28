@@ -5,7 +5,16 @@ import Header from "@/components/Header";
 import PromptGrid from "@/components/PromptGrid";
 import SearchAndFilter from "@/components/SearchAndFilter";
 
-const CATEGORIES = ["基本", "開発", "創造"];
+const CATEGORIES = [
+  "基本",
+  "開発",
+  "創造",
+  "分析",
+  "会話",
+  "教育",
+  "データ",
+  "システム"
+];
 
 interface Prompt {
   id: number;
@@ -42,7 +51,22 @@ const Index = () => {
       category: "創造",
       prompt: "[テーマ]に関するアイデアを5つ、それぞれの長所・短所と共に提案してください。",
     },
+    {
+      id: 4,
+      title: "データ分析プロンプト",
+      description: "データの分析と洞察を得るためのプロンプト",
+      category: "分析",
+      prompt: "以下のデータセットを分析し、主要な傾向と洞察を3つ挙げてください：[データ]",
+    },
+    {
+      id: 5,
+      title: "会話シミュレーション",
+      description: "特定のシナリオでの会話をシミュレートするプロンプト",
+      category: "会話",
+      prompt: "以下の状況でのロールプレイを行ってください：[シナリオ]",
+    },
   ]);
+
   const { toast } = useToast();
 
   const filteredPrompts = prompts.filter((prompt) => {
