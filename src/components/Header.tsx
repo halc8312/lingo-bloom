@@ -20,14 +20,14 @@ const Header = ({
   onDeleteSelected
 }: HeaderProps) => {
   return (
-    <div className="flex items-center justify-between mb-8">
-      <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent animate-fade-in">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+      <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent animate-fade-in whitespace-nowrap">
         プロンプト文例集
       </h1>
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2 sm:gap-4">
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive" className="transition-all duration-200 hover:scale-105">
+            <Button variant="destructive" className="transition-all duration-200 hover:scale-105 text-sm sm:text-base">
               <Trash2 className="h-4 w-4 mr-2" />
               全てのプロンプトを削除
             </Button>
@@ -49,7 +49,7 @@ const Header = ({
         {selectedCount > 0 && (
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="destructive" className="transition-all duration-200 hover:scale-105">
+              <Button variant="destructive" className="transition-all duration-200 hover:scale-105 text-sm sm:text-base">
                 <Trash2 className="h-4 w-4 mr-2" />
                 選択したプロンプトを削除
               </Button>
@@ -70,7 +70,7 @@ const Header = ({
         )}
         <Button 
           onClick={() => setShowAddForm(!showAddForm)}
-          className="transition-all duration-200 hover:scale-105"
+          className="transition-all duration-200 hover:scale-105 text-sm sm:text-base"
         >
           {showAddForm ? "キャンセル" : "プロンプトを追加"}
         </Button>
