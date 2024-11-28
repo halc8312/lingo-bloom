@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import SearchBar from "@/components/SearchBar";
-import CategoryFilter from "@/components/CategoryFilter";
-import PromptCard from "@/components/PromptCard";
-import AddPromptForm from "@/components/AddPromptForm";
 import { useToast } from "@/components/ui/use-toast";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Trash2 } from "lucide-react";
+import AddPromptForm from "@/components/AddPromptForm";
+import Header from "@/components/Header";
+import PromptGrid from "@/components/PromptGrid";
+import SearchAndFilter from "@/components/SearchAndFilter";
 
 const CATEGORIES = ["基本", "開発", "創造"];
 
@@ -100,15 +97,6 @@ const Index = () => {
     );
   };
 
-  const handleBulkDelete = () => {
-    setPrompts(prompts.filter(prompt => !selectedPrompts.includes(prompt.id)));
-    toast({
-      title: "プロンプトを一括削除しました",
-      description: `${selectedPrompts.length}件のプロンプトが削除されました。`,
-    });
-    setSelectedPrompts([]);
-  };
-
   const handleDeleteAll = () => {
     setPrompts([]);
     setSelectedPrompts([]);
@@ -118,62 +106,28 @@ const Index = () => {
     });
   };
 
-  return (
-    <div className="container py-8">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-4xl font-bold">プロンプト文例集</h1>
-        <div className="flex items-center gap-4">
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="destructive">
-                <Trash2 className="h-4 w-4 mr-2" />
-                全てのプロンプトを削除
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>全プロンプトの削除</AlertDialogTitle>
-                <AlertDialogDescription>
-                  全ての（{prompts.length}件の）プロンプトを削除します。この操作は取り消せません。
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>キャンセル</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDeleteAll}>削除する</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+  const handleDeleteSelected = () => {
+    setPrompts(prompts.filter(prompt => !selectedPrompts.includes(prompt.id)));
+    toast({
+      title: "プロンプトを一括削除しました",
+      description: `${selectedPrompts.length}件のプロンプトが削除されました。`,
+    });
+    setSelectedPrompts([]);
+  };
 
-          {selectedPrompts.length > 0 && (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="destructive">
-                  <Trash2 className="h-4 w-4 mr-2" />
-                  選択したプロンプトを削除
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>プロンプトの一括削除</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    選択した{selectedPrompts.length}件のプロンプトを削除します。この操作は取り消せません。
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>キャンセル</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleBulkDelete}>削除する</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          )}
-          <Button onClick={() => setShowAddForm(!showAddForm)}>
-            {showAddForm ? "キャンセル" : "プロンプトを追加"}
-          </Button>
-        </div>
-      </div>
+  return (
+    <div className="container py-8 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
+      <Header
+        promptCount={prompts.length}
+        selectedCount={selectedPrompts.length}
+        showAddForm={showAddForm}
+        setShowAddForm={setShowAddForm}
+        onDeleteAll={handleDeleteAll}
+        onDeleteSelected={handleDeleteSelected}
+      />
 
       {showAddForm ? (
-        <div className="mb-8">
+        <div className="mb-8 animate-fade-in">
           <AddPromptForm
             onSubmit={handleAddPrompt}
             onBulkSubmit={handleBulkAddPrompts}
@@ -181,27 +135,20 @@ const Index = () => {
           />
         </div>
       ) : (
-        <div className="mb-8 space-y-4">
-          <SearchBar onSearch={setSearchQuery} />
-          <CategoryFilter
-            categories={CATEGORIES}
-            selectedCategory={selectedCategory}
-            onSelectCategory={setSelectedCategory}
-          />
-        </div>
+        <SearchAndFilter
+          onSearch={setSearchQuery}
+          categories={CATEGORIES}
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
       )}
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filteredPrompts.map((prompt) => (
-          <PromptCard 
-            key={prompt.id} 
-            {...prompt} 
-            onDelete={handleDeletePrompt}
-            isSelected={selectedPrompts.includes(prompt.id)}
-            onSelect={handleSelectPrompt}
-          />
-        ))}
-      </div>
+      <PromptGrid
+        prompts={filteredPrompts}
+        onDelete={handleDeletePrompt}
+        selectedPrompts={selectedPrompts}
+        onSelect={handleSelectPrompt}
+      />
     </div>
   );
 };
