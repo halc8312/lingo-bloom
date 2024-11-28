@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/components/ui/use-toast";
+import { Copy } from "lucide-react";
 
 const formSchema = z.object({
   title: z.string().min(1, "タイトルを入力してください"),
@@ -41,6 +43,7 @@ interface AddPromptFormProps {
 
 const AddPromptForm = ({ onSubmit, onBulkSubmit, categories }: AddPromptFormProps) => {
   const [activeTab, setActiveTab] = useState<string>("single");
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,6 +69,29 @@ const AddPromptForm = ({ onSubmit, onBulkSubmit, categories }: AddPromptFormProp
     } catch (error) {
       console.error("JSON解析エラー:", error);
     }
+  };
+
+  const sampleFormat = [
+    {
+      title: "プロンプト1",
+      description: "説明1",
+      category: "基本",
+      prompt: "プロンプト内容1"
+    },
+    {
+      title: "プロンプト2",
+      description: "説明2",
+      category: "開発",
+      prompt: "プロンプト内容2"
+    }
+  ];
+
+  const copyFormat = () => {
+    navigator.clipboard.writeText(JSON.stringify(sampleFormat, null, 2));
+    toast({
+      title: "コピーしました",
+      description: "JSONフォーマットをクリップボードにコピーしました。",
+    });
   };
 
   return (
@@ -157,28 +183,27 @@ const AddPromptForm = ({ onSubmit, onBulkSubmit, categories }: AddPromptFormProp
       <TabsContent value="json">
         <Form {...jsonForm}>
           <form onSubmit={jsonForm.handleSubmit(handleJsonSubmit)} className="space-y-6">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm text-muted-foreground">JSONフォーマット</p>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-8"
+                onClick={copyFormat}
+              >
+                <Copy className="h-4 w-4 mr-2" />
+                フォーマットをコピー
+              </Button>
+            </div>
             <FormField
               control={jsonForm.control}
               name="jsonInput"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>JSON入力</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder={`[
-  {
-    "title": "プロンプト1",
-    "description": "説明1",
-    "category": "基本",
-    "prompt": "プロンプト内容1"
-  },
-  {
-    "title": "プロンプト2",
-    "description": "説明2",
-    "category": "開発",
-    "prompt": "プロンプト内容2"
-  }
-]`}
+                      placeholder={JSON.stringify(sampleFormat, null, 2)}
                       className="min-h-[300px] font-mono"
                       {...field}
                     />
