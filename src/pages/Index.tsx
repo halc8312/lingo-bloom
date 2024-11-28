@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import AddPromptForm from "@/components/AddPromptForm";
 import Header from "@/components/Header";
@@ -6,14 +6,18 @@ import PromptGrid from "@/components/PromptGrid";
 import SearchAndFilter from "@/components/SearchAndFilter";
 
 const CATEGORIES = [
-  "基本",
-  "開発",
-  "創造",
-  "分析",
-  "会話",
-  "教育",
-  "データ",
-  "システム"
+  "文章作成",
+  "コード生成",
+  "データ分析",
+  "翻訳・校正",
+  "アイデア発想",
+  "要約・整理",
+  "シナリオ作成",
+  "質問応答",
+  "画像指示",
+  "ロールプレイ",
+  "文書変換",
+  "タスク分解"
 ];
 
 interface Prompt {
@@ -32,39 +36,39 @@ const Index = () => {
   const [prompts, setPrompts] = useState<Prompt[]>([
     {
       id: 1,
-      title: "詳細な説明を求めるプロンプト",
-      description: "より具体的な回答を得るためのプロンプトテンプレート",
-      category: "基本",
-      prompt: "以下のトピックについて、具体例を3つ含めて詳しく説明してください：[トピック]",
+      title: "ブログ記事作成",
+      description: "特定のトピックについてのブログ記事を生成",
+      category: "文章作成",
+      prompt: "以下のトピックについて、導入・本論・結論を含む1000文字程度のブログ記事を作成してください：[トピック]",
     },
     {
       id: 2,
-      title: "コード生成プロンプト",
-      description: "プログラミングコードを生成するためのプロンプト",
-      category: "開発",
-      prompt: "以下の機能を持つ[言語名]のコードを書いてください：[機能の説明]",
+      title: "APIエンドポイント実装",
+      description: "RESTful APIのエンドポイントコードを生成",
+      category: "コード生成",
+      prompt: "以下の仕様に基づいてNode.jsとExpressを使用したAPIエンドポイントを実装してください：[仕様]",
     },
     {
       id: 3,
-      title: "ブレインストーミングプロンプト",
-      description: "アイデア出しを支援するプロンプト",
-      category: "創造",
-      prompt: "[テーマ]に関するアイデアを5つ、それぞれの長所・短所と共に提案してください。",
+      title: "データトレンド分析",
+      description: "データセットから主要なトレンドを抽出",
+      category: "データ分析",
+      prompt: "以下のデータセットを分析し、主要なトレンドと洞察を3つ挙げ、それぞれの実務的な意味を説明してください：[データ]",
     },
     {
       id: 4,
-      title: "データ分析プロンプト",
-      description: "データの分析と洞察を得るためのプロンプト",
-      category: "分析",
-      prompt: "以下のデータセットを分析し、主要な傾向と洞察を3つ挙げてください：[データ]",
+      title: "英日翻訳と校正",
+      description: "英文を自然な日本語に翻訳",
+      category: "翻訳・校正",
+      prompt: "以下の英文を、文脈を考慮して自然な日本語に翻訳してください：[英文]",
     },
     {
       id: 5,
-      title: "会話シミュレーション",
-      description: "特定のシナリオでの会話をシミュレートするプロンプト",
-      category: "会話",
-      prompt: "以下の状況でのロールプレイを行ってください：[シナリオ]",
-    },
+      title: "商品アイデア発想",
+      description: "新商品のアイデアを複数生成",
+      category: "アイデア発想",
+      prompt: "以下の市場/顧客ニーズに基づいて、革新的な商品アイデアを5つ提案し、それぞれの特徴と想定されるターゲット層を説明してください：[市場/ニーズ]",
+    }
   ]);
 
   const { toast } = useToast();

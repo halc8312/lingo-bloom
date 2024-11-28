@@ -4,14 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { 
   Trash2, 
-  Lightbulb, 
-  Code, 
-  Sparkles, 
-  Brain,
-  MessageSquare,
-  BookOpen,
-  Database,
-  Server
+  PenLine,
+  Code,
+  BarChart,
+  Languages,
+  Lightbulb,
+  FileText,
+  ScrollText,
+  HelpCircle,
+  Image,
+  UserSquare2,
+  FileOutput,
+  ListTodo
 } from "lucide-react";
 
 interface PromptCardProps {
@@ -27,24 +31,32 @@ interface PromptCardProps {
 
 const getCategoryIcon = (category: string) => {
   switch (category) {
-    case "基本":
-      return <Lightbulb className="h-4 w-4" />;
-    case "開発":
+    case "文章作成":
+      return <PenLine className="h-4 w-4" />;
+    case "コード生成":
       return <Code className="h-4 w-4" />;
-    case "創造":
-      return <Sparkles className="h-4 w-4" />;
-    case "分析":
-      return <Brain className="h-4 w-4" />;
-    case "会話":
-      return <MessageSquare className="h-4 w-4" />;
-    case "教育":
-      return <BookOpen className="h-4 w-4" />;
-    case "データ":
-      return <Database className="h-4 w-4" />;
-    case "システム":
-      return <Server className="h-4 w-4" />;
-    default:
+    case "データ分析":
+      return <BarChart className="h-4 w-4" />;
+    case "翻訳・校正":
+      return <Languages className="h-4 w-4" />;
+    case "アイデア発想":
       return <Lightbulb className="h-4 w-4" />;
+    case "要約・整理":
+      return <FileText className="h-4 w-4" />;
+    case "シナリオ作成":
+      return <ScrollText className="h-4 w-4" />;
+    case "質問応答":
+      return <HelpCircle className="h-4 w-4" />;
+    case "画像指示":
+      return <Image className="h-4 w-4" />;
+    case "ロールプレイ":
+      return <UserSquare2 className="h-4 w-4" />;
+    case "文書変換":
+      return <FileOutput className="h-4 w-4" />;
+    case "タスク分解":
+      return <ListTodo className="h-4 w-4" />;
+    default:
+      return <PenLine className="h-4 w-4" />;
   }
 };
 
