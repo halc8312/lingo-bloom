@@ -109,11 +109,41 @@ const Index = () => {
     setSelectedPrompts([]);
   };
 
+  const handleDeleteAll = () => {
+    setPrompts([]);
+    setSelectedPrompts([]);
+    toast({
+      title: "全てのプロンプトを削除しました",
+      description: `${prompts.length}件のプロンプトが削除されました。`,
+    });
+  };
+
   return (
     <div className="container py-8">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-4xl font-bold">プロンプト文例集</h1>
         <div className="flex items-center gap-4">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive">
+                <Trash2 className="h-4 w-4 mr-2" />
+                全てのプロンプトを削除
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>全プロンプトの削除</AlertDialogTitle>
+                <AlertDialogDescription>
+                  全ての（{prompts.length}件の）プロンプトを削除します。この操作は取り消せません。
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>キャンセル</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDeleteAll}>削除する</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
           {selectedPrompts.length > 0 && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
