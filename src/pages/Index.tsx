@@ -1,11 +1,62 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import SearchBar from "@/components/SearchBar";
+import CategoryFilter from "@/components/CategoryFilter";
+import PromptCard from "@/components/PromptCard";
+
+const SAMPLE_PROMPTS = [
+  {
+    id: 1,
+    title: "詳細な説明を求めるプロンプト",
+    description: "より具体的な回答を得るためのプロンプトテンプレート",
+    category: "基本",
+    prompt: "以下のトピックについて、具体例を3つ含めて詳しく説明してください：[トピック]",
+  },
+  {
+    id: 2,
+    title: "コード生成プロンプト",
+    description: "プログラミングコードを生成するためのプロンプト",
+    category: "開発",
+    prompt: "以下の機能を持つ[言語名]のコードを書いてください：[機能の説明]",
+  },
+  {
+    id: 3,
+    title: "ブレインストーミングプロンプト",
+    description: "アイデア出しを支援するプロンプト",
+    category: "創造",
+    prompt: "[テーマ]に関するアイデアを5つ、それぞれの長所・短所と共に提案してください。",
+  },
+];
+
+const CATEGORIES = ["基本", "開発", "創造"];
 
 const Index = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
+  const filteredPrompts = SAMPLE_PROMPTS.filter((prompt) => {
+    const matchesSearch = prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      prompt.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === "all" || prompt.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="container py-8">
+      <h1 className="mb-8 text-4xl font-bold">プロンプト文例集</h1>
+      
+      <div className="mb-8 space-y-4">
+        <SearchBar onSearch={setSearchQuery} />
+        <CategoryFilter
+          categories={CATEGORIES}
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {filteredPrompts.map((prompt) => (
+          <PromptCard key={prompt.id} {...prompt} />
+        ))}
       </div>
     </div>
   );
