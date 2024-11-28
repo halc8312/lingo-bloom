@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Trash2 } from "lucide-react";
+import { Trash2, Sparkle, Lightbulb, Star } from "lucide-react";
 
 interface PromptCardProps {
   id: number;
@@ -14,6 +14,19 @@ interface PromptCardProps {
   isSelected: boolean;
   onSelect: (id: number) => void;
 }
+
+const getCategoryIcon = (category: string) => {
+  switch (category) {
+    case "創造":
+      return <Sparkle className="h-3 w-3 mr-1" />;
+    case "開発":
+      return <Lightbulb className="h-3 w-3 mr-1" />;
+    case "基本":
+      return <Star className="h-3 w-3 mr-1" />;
+    default:
+      return <Star className="h-3 w-3 mr-1" />;
+  }
+};
 
 const PromptCard = ({ 
   id,
@@ -47,7 +60,8 @@ const PromptCard = ({
           <CardTitle className="text-xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
             {title}
           </CardTitle>
-          <Badge className="transition-transform duration-200 hover:scale-110">
+          <Badge className="flex items-center transition-transform duration-200 hover:scale-110">
+            {getCategoryIcon(category)}
             {category}
           </Badge>
         </div>
