@@ -67,6 +67,19 @@ const Index = () => {
     });
   };
 
+  const handleBulkAddPrompts = (newPrompts: Omit<Prompt, "id">[]) => {
+    const promptsWithIds = newPrompts.map((prompt, index) => ({
+      ...prompt,
+      id: prompts.length + index + 1,
+    }));
+    setPrompts([...prompts, ...promptsWithIds]);
+    setShowAddForm(false);
+    toast({
+      title: "プロンプトを一括追加しました",
+      description: `${promptsWithIds.length}件のプロンプトが追加されました。`,
+    });
+  };
+
   return (
     <div className="container py-8">
       <div className="flex items-center justify-between mb-8">
@@ -78,7 +91,11 @@ const Index = () => {
 
       {showAddForm ? (
         <div className="mb-8">
-          <AddPromptForm onSubmit={handleAddPrompt} categories={CATEGORIES} />
+          <AddPromptForm
+            onSubmit={handleAddPrompt}
+            onBulkSubmit={handleBulkAddPrompts}
+            categories={CATEGORIES}
+          />
         </div>
       ) : (
         <div className="mb-8 space-y-4">
